@@ -48,7 +48,7 @@ void Img::map_pub()
 void Img::load_map()
 {
   std::string ImgPath = ros::package::getPath("localization");
-  cv::Mat img;// = imread(ImgPath+"/Ground.png", 0);
+  cv::Mat img = imread(ImgPath+"/Ground.png", 0);
   for(int i=0;i<img.rows;i++)
     for(int j=0;j<img.cols;j++){
       if(img.at<uchar>(i,j)==255){
