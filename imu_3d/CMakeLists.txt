@@ -25,7 +25,8 @@ endif()
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
-  genmsg    ##可以產生msg
+  #genmsg    ##可以產生msg
+  message_generation
 )
 
 ## Generate messages in the 'msg' folder
