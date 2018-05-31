@@ -15,7 +15,7 @@
 #include "std_msgs/Int32.h"
 #include "math.h"
 #include "sensor_msgs/LaserScan.h"
-#include "/home/wheel/fira_ws/devel/include/imu_3d/inertia.h"
+#include "imu_3d/inertia.h"
 #include "geometry_msgs/Twist.h"
 #include "geometry_msgs/Pose2D.h"
 #include "geometry_msgs/PoseWithCovarianceStamped.h"

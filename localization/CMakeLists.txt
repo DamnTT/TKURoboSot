@@ -8,6 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   tf
+  imu_3d
+  roslib
 )
 
 # find_package(Boost REQUIRED COMPONENTS system)
