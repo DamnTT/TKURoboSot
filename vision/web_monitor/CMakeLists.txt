@@ -1,3 +1,5 @@
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
 add_executable(monitor interface_node.cpp monitor.cpp)
-target_link_libraries(monitor ${catkin_LIBRARIES})
+target_link_libraries(monitor ${catkin_LIBRARIES} ${OpenCV_LIBS})
 add_dependencies(monitor ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

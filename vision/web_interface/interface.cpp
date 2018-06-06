@@ -8,7 +8,7 @@
 #define YELLOWITEM 0x08
 #define WHITEITEM 0x10
 #define IMAGE_TEST1 "/home/testa/image_transport_ws/src/interface_ws/vision/1.jpg"//圖片路徑
-//static const std::string OPENCV_WINDOW = "Image window";
+static const std::string OPENCV_WINDOW = "Image window";
 using namespace std;
 namespace enc = sensor_msgs::image_encodings;
 const double ALPHA = 0.5;
@@ -238,6 +238,7 @@ InterfaceProc::InterfaceProc()
   WhiteModels = new cv::Mat(cv::Size(FRAME_COLS, FRAME_ROWS), CV_8UC3);
   BlackModels = new cv::Mat(cv::Size(FRAME_COLS, FRAME_ROWS), CV_8UC3);
   outputframe = new cv::Mat(cv::Size(FRAME_COLS, FRAME_ROWS), CV_8UC3);
+  //imshow(OPENCV_WINDOW, outputframe);
 }
 InterfaceProc::~InterfaceProc()
 {
@@ -251,7 +252,7 @@ InterfaceProc::~InterfaceProc()
   delete BlackModels;
   delete WhiteModels;
 
-//  cv::destroyWindow(OPENCV_WINDOW);
+  cv::destroyWindow(OPENCV_WINDOW);
 }
 /////////////////////////////////影像讀進來//////////////////////////////////////////
 void InterfaceProc::imageCb(const sensor_msgs::ImageConstPtr& msg)
@@ -315,7 +316,7 @@ void InterfaceProc::imageCb(const sensor_msgs::ImageConstPtr& msg)
     break;
   }
 
-//  setMouseCallback(OPENCV_WINDOW, onMouse, NULL);
+  setMouseCallback(OPENCV_WINDOW, onMouse, NULL);
 
   if (onclick == 1) {
     vision::dis dis_msg;
@@ -327,6 +328,8 @@ void InterfaceProc::imageCb(const sensor_msgs::ImageConstPtr& msg)
     sensor_msgs::ImagePtr thresholdMsg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", *outputframe).toImageMsg();
     image_pub_threshold_.publish(thresholdMsg);
   }
+  cv::waitKey(3);
+
 }
 ///////////////////////////////////////////////////////////////////////
 ////////////////////////////////ColorModel/////////////////////////////
