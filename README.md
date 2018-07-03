@@ -2,6 +2,11 @@
 TKU Team participate in FIRA RoboSot league.
 
 ## Packages Required
+```bash
+$ sudo apt-get install ros-kinetic-prosilica-camera
+# camera ip is 192.168.16.100
+$ sudo apt-get install ros-kinetic-rosbridge-server
+$ sudo apt-get install ros-kinetic-web-video-server
 
 ## Build
 
