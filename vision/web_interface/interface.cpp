@@ -316,7 +316,7 @@ void InterfaceProc::imageCb(const sensor_msgs::ImageConstPtr& msg)
     break;
   }
 
-  setMouseCallback(OPENCV_WINDOW, onMouse, NULL);
+  //setMouseCallback(OPENCV_WINDOW, onMouse, NULL);
 
   if (onclick == 1) {
     vision::dis dis_msg;
