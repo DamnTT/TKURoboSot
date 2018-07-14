@@ -21,9 +21,11 @@ $ catkin_make
 
 ## Quickly start Robot 
 
+```bash
 $ roslaunch fira_launch main_launch.launch
 
-Set robot's vision parameter. When you parameter setting has been completed,you might close this command on terminal. 
+Set robot's vision parameter. When you parameter setting has been completed,you might close this command on terminal.
 $ rosrun vision interface_node
 
 $ rosrun strategy FIRA_strategy
+```
