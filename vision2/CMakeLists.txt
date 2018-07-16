@@ -208,3 +208,7 @@ include_directories(
 add_executable(core src/core_node.cpp src/core.cpp)
 target_link_libraries(core ${catkin_LIBRARIES} ${OpenCV_LIBS})
 add_dependencies(core ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+add_executable(train ml/Train.cpp ml/DataSetManager.cpp)
+target_link_libraries(train ${catkin_LIBRARIES} ${OpenCV_LIBS})
+add_dependencies(train ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
