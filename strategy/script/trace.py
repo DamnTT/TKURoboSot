@@ -13,8 +13,9 @@ import skfuzzy.control as ctrl
 # unnecessary.
 universe0 = np.linspace(0, 200, 5) # Object Distance: 0~200 cm
 universe1 = np.linspace(-180, 180, 5) # Object Angular: -180~180 degs
-universe2 = np.linspace(0, 80, 5) # Velocity: 0~100%
-universe3 = np.linspace(-30, 30, 5) # Angular Velocity: -100~100%
+universe2 = np.linspace(0, 10, 5) # Velocity: 0~100%
+#universe3 = np.linspace(-25, 25, 5) # Angular Velocity: -100~100%
+universe3 = np.array([-70, -30, 0, 30, 70]) # Angular Velocity: -100~100%
 
 # Create the three fuzzy variables
 dD = ctrl.Antecedent(universe0, 'dD')
@@ -87,17 +88,21 @@ sim = ctrl.ControlSystemSimulation(system, flush_after_run=21 * 21 + 1)
 def callback(data):
     dis = data.ball_dis
     ang = data.ball_ang
-    sim.input['dD'] = dis
-    sim.input['dT'] = ang
+    if ang < -180 or ang > 180: # Did not find ball
+      sim.input['dD'] = 0
+      sim.input['dT'] = 0
+    else:
+      sim.input['dD'] = dis
+      sim.input['dT'] = ang
     sim.compute()
     # print("Velocity: %f"%(sim.output['oV']))
     # print("Angular: %f"%(sim.output['oW']))
 
     pub = rospy.Publisher('motion/cmd_vel', Twist, queue_size=1)
     twist = Twist()
-    twist.linear.x = dis*math.sin(math.radians(ang))/abs(dis)*sim.output['oV'] # i^ * oV
+    twist.linear.x = dis*math.sin(math.radians(ang+180))/abs(dis)*sim.output['oV'] # i^ * oV
     twist.linear.y = dis*math.cos(math.radians(ang))/abs(dis)*sim.output['oV'] # j^ * oV
-    twist.angular.z = sim.output['oW'] # k^ * oW
+#    twist.angular.z = sim.output['oW'] # k^ * oW
     pub.publish(twist)
 
 def listener():
