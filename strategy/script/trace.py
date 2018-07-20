@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # license removed for brevity
 import rospy
-from std_msgs.msg import String
 from vision.msg import Object
 from geometry_msgs.msg import Twist
 import numpy as np
@@ -39,26 +38,26 @@ Define complex rules
 This system has a complicated, fully connected set of rules defined below.
 """
 rule0 = ctrl.Rule(antecedent=(dD['ze'] & dT['nb']), consequent=(oV['ze'], oW['nb']))
-rule1 = ctrl.Rule(antecedent=(dD['ze'] & dT['ns']), consequent=(oV['ze'], oW['ns']))
-rule2 = ctrl.Rule(antecedent=(dD['ze'] & dT['ze']), consequent=(oV['ze'], oW['ze']))
-rule3 = ctrl.Rule(antecedent=(dD['ze'] & dT['ps']), consequent=(oV['ze'], oW['ps']))
+rule1 = ctrl.Rule(antecedent=(dD['ze'] & dT['ns']), consequent=(oV['ps'], oW['ns']))
+rule2 = ctrl.Rule(antecedent=(dD['ze'] & dT['ze']), consequent=(oV['pbb'], oW['ze']))
+rule3 = ctrl.Rule(antecedent=(dD['ze'] & dT['ps']), consequent=(oV['ps'], oW['ps']))
 rule4 = ctrl.Rule(antecedent=(dD['ze'] & dT['pb']), consequent=(oV['ze'], oW['pb']))
 
 rule5 = ctrl.Rule(antecedent=(dD['pss'] & dT['nb']), consequent=(oV['pss'], oW['nb']))
-rule6 = ctrl.Rule(antecedent=(dD['pss'] & dT['ns']), consequent=(oV['pss'], oW['ns']))
-rule7 = ctrl.Rule(antecedent=(dD['pss'] & dT['ze']), consequent=(oV['pss'], oW['ze']))
-rule8 = ctrl.Rule(antecedent=(dD['pss'] & dT['ps']), consequent=(oV['pss'], oW['ps']))
+rule6 = ctrl.Rule(antecedent=(dD['pss'] & dT['ns']), consequent=(oV['ps'], oW['ns']))
+rule7 = ctrl.Rule(antecedent=(dD['pss'] & dT['ze']), consequent=(oV['pbb'], oW['ze']))
+rule8 = ctrl.Rule(antecedent=(dD['pss'] & dT['ps']), consequent=(oV['ps'], oW['ps']))
 rule9 = ctrl.Rule(antecedent=(dD['pss'] & dT['pb']), consequent=(oV['pss'], oW['pb']))
 
 rule10 = ctrl.Rule(antecedent=(dD['ps'] & dT['nb']), consequent=(oV['ps'], oW['nb']))
 rule11 = ctrl.Rule(antecedent=(dD['ps'] & dT['ns']), consequent=(oV['ps'], oW['ns']))
-rule12 = ctrl.Rule(antecedent=(dD['ps'] & dT['ze']), consequent=(oV['ps'], oW['ze']))
+rule12 = ctrl.Rule(antecedent=(dD['ps'] & dT['ze']), consequent=(oV['pbb'], oW['ze']))
 rule13 = ctrl.Rule(antecedent=(dD['ps'] & dT['ps']), consequent=(oV['ps'], oW['ps']))
 rule14 = ctrl.Rule(antecedent=(dD['ps'] & dT['pb']), consequent=(oV['ps'], oW['pb']))
 
 rule15 = ctrl.Rule(antecedent=(dD['pb'] & dT['nb']), consequent=(oV['pb'], oW['nb']))
 rule16 = ctrl.Rule(antecedent=(dD['pb'] & dT['ns']), consequent=(oV['pb'], oW['ns']))
-rule17 = ctrl.Rule(antecedent=(dD['pb'] & dT['ze']), consequent=(oV['pb'], oW['ze']))
+rule17 = ctrl.Rule(antecedent=(dD['pb'] & dT['ze']), consequent=(oV['pbb'], oW['ze']))
 rule18 = ctrl.Rule(antecedent=(dD['pb'] & dT['ps']), consequent=(oV['pb'], oW['ps']))
 rule19 = ctrl.Rule(antecedent=(dD['pb'] & dT['pb']), consequent=(oV['pb'], oW['pb']))
 
@@ -85,34 +84,16 @@ system = ctrl.ControlSystem(rules=my_rules)
 # Subsequent runs would return in 1/8 the time!
 sim = ctrl.ControlSystemSimulation(system, flush_after_run=21 * 21 + 1)
 
-def callback(data):
-    dis = data.ball_dis
-    ang = data.ball_ang
-    if ang < -180 or ang > 180: # Did not find ball
-      sim.input['dD'] = 0
-      sim.input['dT'] = 0
-    else:
-      sim.input['dD'] = dis
-      sim.input['dT'] = ang
-    sim.compute()
-    # print("Velocity: %f"%(sim.output['oV']))
-    # print("Angular: %f"%(sim.output['oW']))
+def fuzzy(dD, dT):
+  sim.input['dD'] = dD
+  sim.input['dT'] = dT
+  sim.compute()
 
-    pub = rospy.Publisher('motion/cmd_vel', Twist, queue_size=1)
-    twist = Twist()
-    twist.linear.x = dis*math.sin(math.radians(ang+180))/abs(dis)*sim.output['oV'] # i^ * oV
-    twist.linear.y = dis*math.cos(math.radians(ang))/abs(dis)*sim.output['oV'] # j^ * oV
-#    twist.angular.z = sim.output['oW'] # k^ * oW
-    pub.publish(twist)
+  return(sim.output['oV'], sim.output['oW'])
 
-def listener():
-    rospy.init_node('trace', anonymous=True)
-    rospy.Subscriber("vision/object", Object, callback)
+def fuzzy(dT):
+  sim.input['dD'] = dD
+  sim.input['dT'] = dT
+  sim.compute()
 
-    rospy.spin()
-
-if __name__ == '__main__':
-    try:
-        listener()
-    except rospy.ROSInterruptException:
-        pass
+  return(sim.output['oW'])
