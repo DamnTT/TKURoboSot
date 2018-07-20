@@ -3,6 +3,8 @@
 #define PI 3.14159265
 #define FRAME_COLS 659 //width  x695
 #define FRAME_ROWS 493 //height y493
+// #define FRAME_COLS 1328 //width  x659
+// #define FRAME_ROWS 1048 //height y493
 using namespace std;
 using namespace cv;
 
@@ -79,7 +81,10 @@ void InterfaceProc::imageCb(const sensor_msgs::ImageConstPtr& msg)
     ROS_ERROR("cv_bridge exception: %s", e.what());
     return;
   }
-
+  if(cv_ptr->image.rows != FRAME_ROWS || cv_ptr->image.cols != FRAME_COLS){
+    
+    cv::resize( cv_ptr->image, cv_ptr->image, cv::Size(FRAME_COLS, FRAME_ROWS) ); 
+  }
   //Mat frame;
   cv::flip(cv_ptr->image, cv_ptr->image, 1);
   cv_ptr->image.copyTo(*frame);

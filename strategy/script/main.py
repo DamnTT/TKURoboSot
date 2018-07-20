@@ -7,8 +7,8 @@ import math
 import skfuzzy.control as ctrl
 import trace
 
-CATCH_BALL_DIS = 30
-ATTACK_RANGE_ANG = 10
+CATCH_BALL_DIS = 39
+ATTACK_RANGE_ANG = 5
 
 def callback(data):
   dis = data.ball_dis
@@ -31,8 +31,8 @@ def callback(data):
   ## Catch Ball
   else:
     if abs(data.blue_ang) > ATTACK_RANGE_ANG:
-      oW = trace.fuzzy(ang)
-      twist.linear.x  = data.blue_ang
+      oV, oW = trace.fuzzy(data.blue_dis, data.blue_ang)
+      twist.linear.x  = data.blue_ang/abs(data.blue_ang)*20
       twist.linear.y  = 0
       twist.angular.z = oW
     else:

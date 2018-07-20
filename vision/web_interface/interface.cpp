@@ -1,7 +1,9 @@
 #define PI 3.14159265
 #include "interface.hpp"
-#define FRAME_COLS 659 //width  x695
+#define FRAME_COLS 659 //width  x659
 #define FRAME_ROWS 493 //height y493
+//#define FRAME_COLS 1328 //width  x659
+//#define FRAME_ROWS 1048 //height y493
 #define REDITEM 0x01
 #define GREENITEM 0x02
 #define BLUEITEM 0x04
@@ -265,6 +267,11 @@ void InterfaceProc::imageCb(const sensor_msgs::ImageConstPtr& msg)
     return;
   }
 //////////////////////Clone///////////////////////////////////
+  if(cv_ptr->image.rows != FRAME_ROWS || cv_ptr->image.cols != FRAME_COLS){
+    
+    cv::resize( cv_ptr->image, cv_ptr->image, cv::Size(FRAME_COLS, FRAME_ROWS) ); 
+  }
+  
   cv::flip(cv_ptr->image, cv_ptr->image, 1);
   Main_frame = cv_ptr->image.clone();
   *frame = cv_ptr->image;

@@ -12,9 +12,8 @@ import skfuzzy.control as ctrl
 # unnecessary.
 universe0 = np.linspace(0, 200, 5) # Object Distance: 0~200 cm
 universe1 = np.linspace(-180, 180, 5) # Object Angular: -180~180 degs
-universe2 = np.linspace(0, 10, 5) # Velocity: 0~100%
-#universe3 = np.linspace(-25, 25, 5) # Angular Velocity: -100~100%
-universe3 = np.array([-70, -30, 0, 30, 70]) # Angular Velocity: -100~100%
+universe2 = np.linspace(10, 40, 5) # Velocity: 0~100%
+universe3 = np.array([-70, -25, 0, 25, 70]) # Angular Velocity: -100~100%
 
 # Create the three fuzzy variables
 dD = ctrl.Antecedent(universe0, 'dD')
@@ -84,16 +83,9 @@ system = ctrl.ControlSystem(rules=my_rules)
 # Subsequent runs would return in 1/8 the time!
 sim = ctrl.ControlSystemSimulation(system, flush_after_run=21 * 21 + 1)
 
-def fuzzy(dD, dT):
+def fuzzy(dD = 0, dT = 0):
   sim.input['dD'] = dD
   sim.input['dT'] = dT
   sim.compute()
 
   return(sim.output['oV'], sim.output['oW'])
-
-def fuzzy(dT):
-  sim.input['dD'] = dD
-  sim.input['dT'] = dT
-  sim.compute()
-
-  return(sim.output['oW'])

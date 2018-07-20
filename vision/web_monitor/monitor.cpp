@@ -2,6 +2,8 @@
 #include "monitor.hpp"
 #define FRAME_COLS 659 //width  x695
 #define FRAME_ROWS 493 //height y493
+// #define FRAME_COLS 1328 //width  x659
+// #define FRAME_ROWS 1048 //height y493
 #define REDITEM 0x01
 #define GREENITEM 0x02
 #define BLUEITEM 0x04
@@ -160,6 +162,10 @@ void InterfaceProc::imageCb(const sensor_msgs::ImageConstPtr& msg)
   } catch (cv_bridge::Exception& e) {
     ROS_ERROR("cv_bridge exception: %s", e.what());
     return;
+  }
+  if(cv_ptr->image.rows != FRAME_ROWS || cv_ptr->image.cols != FRAME_COLS){
+    
+    cv::resize( cv_ptr->image, cv_ptr->image, cv::Size(FRAME_COLS, FRAME_ROWS) ); 
   }
 //////////////////////Clone///////////////////////////////////
   cv::flip(cv_ptr->image, cv_ptr->image, 1);
