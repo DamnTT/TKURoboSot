@@ -12,10 +12,10 @@ class Fuzzy():
     self.system()
 
   def setting(self):
-    universe0 = np.linspace(-100, 100, 5)      # Delta Destination Distance
+    universe0 = np.linspace(-150, 150, 5)      # Delta Destination Distance
     universe1 = np.linspace(-180, 180, 5)      # Delta Destination Angular
     universe2 = np.linspace(-20, 20, 5)        # Velocity
-    universe3 = np.array([-70, -25, 0, 25, 70]) # Angular Velocity
+    universe3 = np.array([-50, -20, 0, 20, 50]) # Angular Velocity
 
     dD = ctrl.Antecedent(universe0, 'dD')
     dT = ctrl.Antecedent(universe1, 'dT')
@@ -68,9 +68,23 @@ class Fuzzy():
     self.system = ctrl.ControlSystem(rules=self.my_rules)
     self.sim = ctrl.ControlSystemSimulation(self.system, flush_after_run=21 * 21 + 1)
 
-  def fuzzy(self, dD = 0, dT = 0):
-    self.sim.input['dD'] = self.orbit_dis - dD
-    self.sim.input['dT'] = self.orbit_ang - dT
+  def fuzzy(self, D = 0, T = 0):
+    dD = D - self.orbit_dis
+    dT = T - self.orbit_ang
+    if dD < -200:
+      print("catch")
+      dD = -200
+    elif dD > 200:
+      print("catch")
+      dD = 200
+    elif dT < -180:
+      print("catch")
+      dT = -180
+    elif dT > 180:
+      print("catch")
+      dT = 180
+    self.sim.input['dD'] = dD
+    self.sim.input['dT'] = dT
     self.sim.compute()
 
     return(self.sim.output['oV'], self.sim.output['oW'])
