@@ -11,7 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   actionlib_msgs
   dynamic_reconfigure
-  dynamic_tutorials
+#  dynamic_tutorials
   message_generation
   roscpp
   rospy
