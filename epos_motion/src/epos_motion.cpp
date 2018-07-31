@@ -3,12 +3,13 @@
 typedef void* HANDLE;
 typedef int BOOL;
 
-EposMotion::EposMotion()
+EposMotion::EposMotion(unsigned short id, std::string device, std::string protocol,
+                       std::string interface, std::string port, int baudrate)
 {
   int lResult = MMC_FAILED;
   unsigned int ulErrorCode = 0;
 
-  SetDefaultParameters();
+  SetDefaultParameters(id, device, protocol, interface, port, baudrate);
 
   if ((lResult = OpenDevice(&ulErrorCode))!=MMC_SUCCESS) {
     std::cerr << "Controller " << g_usNodeId << ": " << "OpenDevice" << " failed (result=" << lResult << ", errorCode=0x" << std::hex << ulErrorCode << ")"<< std::endl;
@@ -213,7 +214,7 @@ void EposMotion::Halt(HANDLE p_DeviceHandle, unsigned short p_usNodeId, unsigned
 }
 
 void EposMotion::MotionMove(const long speed)
-{
+{ 
   unsigned int ulErrorCode = 0;
   Move(g_pKeyHandle, g_usNodeId, speed, ulErrorCode);
 }

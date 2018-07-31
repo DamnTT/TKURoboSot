@@ -65,22 +65,22 @@ architecture=$(uname -m)
 case $architecture in
 	armv7l)
 		ln -sf '/opt/EposCmdLib_6.4.1.0/lib/armv7hf/libEposCmd.so.6.4.1.0' /usr/lib/libEposCmd.so
-		ln -sf '/opt/EposCmdLib_6.4.1.0/lib/armv7hf/libftd2xx.so.1.4.6' /usr/lib/libftd2xx.so
+		ln -sf '/opt/EposCmdLib_6.4.1.0/lib/armv7hf/libftd2xx.so.1.4.8' /usr/lib/libftd2xx.so
 		;;
 	 x86|i386|i486|i586|i686)
 		ln -sf '/opt/EposCmdLib_6.4.1.0/lib/x86/libEposCmd.so.6.4.1.0' /usr/lib/libEposCmd.so
-		ln -sf '/opt/EposCmdLib_6.4.1.0/lib/x86/libftd2xx.so.1.4.6' /usr/lib/libftd2xx.so
+		ln -sf '/opt/EposCmdLib_6.4.1.0/lib/x86/libftd2xx.so.1.4.8' /usr/lib/libftd2xx.so
 		;;
 	 x86_64)
 		ln -sf '/opt/EposCmdLib_6.4.1.0/lib/x86_64/libEposCmd.so.6.4.1.0' /usr/lib/libEposCmd.so
-		ln -sf '/opt/EposCmdLib_6.4.1.0/lib/x86_64/libftd2xx.so.1.4.6' /usr/lib/libftd2xx.so
+		ln -sf '/opt/EposCmdLib_6.4.1.0/lib/x86_64/libftd2xx.so.1.4.8' /usr/lib/libftd2xx.so
 		;;
 esac
 check_result
 
 #add udev rules
 printf ' - Configure device access rights'
-cp -f './misc/99-ftdi.rules' /etc/udev/rules.d > /dev/null
+cp -f './misc/90-ftd2xx.rules' /etc/udev/rules.d > /dev/null
 cp -f './misc/99-epos4.rules' /etc/udev/rules.d > /dev/null
 check_result
 
@@ -111,7 +111,7 @@ check_result
 #remove udev rules
 printf ' - Reconfigure device access rights'
 rm -f /etc/udev/rules.d/99-epos4.rules > /dev/null
-rm -f /etc/udev/rules.d/99-ftdi.rules > /dev/null
+rm -f /etc/udev/rules.d/90-ftd2xx.rules > /dev/null
 check_result
 
 service udev restart

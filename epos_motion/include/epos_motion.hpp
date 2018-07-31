@@ -42,7 +42,8 @@ private:
   int g_baudrate = 1000000;
 
 public:
-  EposMotion();
+  EposMotion(unsigned short id = 1, std::string device = "EPOS2", std::string protocol = "MAXON SERIAL V2",
+             std::string interface = "USB", std::string port = "USB0", int baudrate = 1000000);
   ~EposMotion();
   void SetDefaultParameters(unsigned short id = 1, std::string device = "EPOS2", std::string protocol = "MAXON SERIAL V2",
                             std::string interface = "USB", std::string port = "USB0", int baudrate = 1000000);
