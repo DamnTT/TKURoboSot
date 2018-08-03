@@ -20,9 +20,6 @@ EposMotion::EposMotion(unsigned short id, std::string device, std::string protoc
   if ((lResult = MotorSetting(&ulErrorCode))!=MMC_SUCCESS) {
     std::cerr << "Controller " << g_usNodeId << ": " << "MotorSetting" << " failed (result=" << lResult << ", errorCode=0x" << std::hex << ulErrorCode << ")"<< std::endl;
   }
-  if ((lResult = MotorSetting(&ulErrorCode))!=MMC_SUCCESS) {
-    std::cerr << "Controller " << g_usNodeId << ": " << "MotorSetting" << " failed (result=" << lResult << ", errorCode=0x" << std::hex << ulErrorCode << ")"<< std::endl;
-  }
   if ((lResult = ProfileVelocityMode(g_pKeyHandle, g_usNodeId, ulErrorCode))!=MMC_SUCCESS) {
     std::cerr << "Controller " << g_usNodeId << ": " << "ProfileVelocityMode" << " failed (result=" << lResult << ", errorCode=0x" << std::hex << ulErrorCode << ")"<< std::endl;
   }
@@ -132,6 +129,7 @@ int EposMotion::ResetController(unsigned int* p_pErrorCode)
   int lResult = MMC_SUCCESS;
   BOOL oIsFault = 0;
 
+  // std::cerr << "Controller " << g_usNodeId << "errorCode=0x" << std::hex << p_pErrorCode << ")"<< std::endl;
   if (VCS_GetFaultState(g_pKeyHandle, g_usNodeId, &oIsFault, p_pErrorCode ) == 0) {
     std::cerr << "Controller " << g_usNodeId << ": VCS_GetFaultState failed (result=" << lResult << ", errorCode=0x" << std::hex << p_pErrorCode << ")"<< std::endl;
     lResult = MMC_FAILED;
