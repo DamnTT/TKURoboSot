@@ -1,0 +1,10 @@
+#! /usr/bin/python3
+
+import os
+
+sudoPassword = 'chu'
+command = 'chmod 777 /dev/sensor/imu'
+
+os.system('echo %s|sudo -S %s' % (sudoPassword, command))
+
+os.system('rosrun imu_3d imu_3d')

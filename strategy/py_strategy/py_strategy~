@@ -1,0 +1,38 @@
+#! /usr/bin/python3
+from time import time
+
+import signal
+import rospy
+from src.robot_generator import *
+# keyboard interrupt function
+def keyBoardINT(signum, frame):  
+    print('You pressed Ctrl+C!')
+    exit(0)  
+
+
+if __name__ == '__main__': 
+
+    signal.signal(signal.SIGINT, keyBoardINT)  
+    signal.signal(signal.SIGTERM, keyBoardINT) 
+
+    rospy.init_node('py_strategy', anonymous=True)
+    robot_generator = RobotGenerator()
+    robot_list = robot_generator.selectRobot()
+    print(robot_list)
+    rate = rospy.Rate(50)
+
+    while not rospy.is_shutdown():        
+
+        # tStart = time()
+
+        if robot_generator.update_role == True:
+            robot_list = robot_generator.selectRobot()
+            robot_generator.update_role = False
+
+        for robot in robot_list:
+            robot.run()
+
+        # tEnd = time()
+        # print("It cost %f sec" % (tEnd - tStart))
+        
+        rate.sleep()

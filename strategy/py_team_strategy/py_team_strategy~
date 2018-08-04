@@ -1,0 +1,28 @@
+#! /usr/bin/python3
+from time import time
+
+
+import signal
+import rospy
+from src.role_manager import RoleManager
+
+# keyboard interrupt function
+def keyBoardINT(signum, frame):  
+    print('You pressed Ctrl+C!')
+    exit(0)  
+
+
+if __name__ == '__main__': 
+
+    signal.signal(signal.SIGINT, keyBoardINT)  
+    signal.signal(signal.SIGTERM, keyBoardINT) 
+
+    rospy.init_node('team_strategy', anonymous=True)
+    rate = rospy.Rate(5)
+    team_coach = RoleManager()
+
+    while not rospy.is_shutdown():        
+
+        team_coach.teamStrategy()
+        team_coach.pubRole()
+        rate.sleep()
