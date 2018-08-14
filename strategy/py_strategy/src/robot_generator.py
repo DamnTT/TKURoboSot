@@ -2,12 +2,11 @@ import rospy
 from std_msgs.msg import Int32
 from src.strategy.goalkeeper_strategy import *
 from src.strategy.halt_strategy import *
+from stc.strategy.run_dest import *
+from src.data_structure import const
 
 # role define
 NO_EXISTS = -1
-HALT = 0
-GOALKEEPER = 1
-
 
 class RobotGenerator(object):
 
@@ -24,10 +23,15 @@ class RobotGenerator(object):
         for robot in self.robot_list:
             if robot == NO_EXISTS:
                 pass
-            elif robot == HALT:
+            elif robot == const.ROLE_HALT:
                 robot_list.append(Halt())
-            elif robot == GOALKEEPER:
-                robot_list.append(Goalkeeper())
+            elif robot == const.ROLE_GOALKEEPER:
+                robot_list.append(Goalkeeper())       
+            
+            ## special purpose
+            elif robot == const.ROLE_RUN_LOCATION:
+                pass
+
             else:
                 raise ValueError('Unexpected role!!')
 

@@ -1,6 +1,7 @@
 import rospy
 # import roslib
 from src.data_structure import data_structure
+from src.data_structure import const
 # import message 
 from std_msgs.msg import Int32
 from std_msgs.msg import String
@@ -25,10 +26,10 @@ class CoachCmdManager(object):
 
 
     def initAttr(self):
-        self.game_state = 0
-        self.robot_1_role = 0
-        self.robot_2_role = 0
-        self.robot_3_role = 0
+        self.game_state = const.GAMESTATE_HALT
+        self.robot_1_role = const.ROLE_HALT
+        self.robot_2_role = const.ROLE_HALT
+        self.robot_3_role = const.ROLE_HALT
 
     def subGameState(self, game_state):
         self.game_state = game_state.data
