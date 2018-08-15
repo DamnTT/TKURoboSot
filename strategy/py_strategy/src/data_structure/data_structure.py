@@ -98,7 +98,6 @@ class Behavior(object):
         self.goalkeeper = []
 
 
-
 class Param(object):
 
     def __init__(self):

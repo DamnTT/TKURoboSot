@@ -29,16 +29,10 @@ class SoccerRobot(Robot):
         self.state = 0
         self.behavior = None
         self.interface = RobotPortManager()
-
+    
     def run(self):
-        self.getParam()
         self.behaviorDecision()
         self.pubMotionCommand()
-
-    def getParam(self):
-        if self.interface.saveParam == True:
-            self.interface.loadParam()
-            self.interface.saveParam = False
 
     def behaviorDecision(self):
         self._fsm.frame(self, self.state)
@@ -79,7 +73,6 @@ class SoccerRobot(Robot):
 
         angle_out = angle 
         
-        print(angle)
         if velocity == 0:
             pass
         elif velocity > dis_max:
@@ -99,12 +92,10 @@ class SoccerRobot(Robot):
       
         if angle < 0:
             angle_out = -angle_out
-        print(angle_out)
 
         self.interface.robot_info.cmd_vel.x = velocity * math.cos(alpha*DEG2RAD)
         self.interface.robot_info.cmd_vel.y = velocity * math.sin(alpha*DEG2RAD)
         self.interface.robot_info.cmd_vel.yaw = angle_out
-
 
     def pubMotionCommand(self):
         self._velocityNormalization()

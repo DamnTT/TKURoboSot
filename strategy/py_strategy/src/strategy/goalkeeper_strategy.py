@@ -56,12 +56,11 @@ class Goalkeeper(SoccerRobot):
 
         if abs(door_middle_diff) <= 0.1:
              door_middle_diff = 0
-        print(door_middle_diff)
+
         x = door_middle_diff
         y = 0
 
         self.interface.robot_info.cmd_vel.x, self.interface.robot_info.cmd_vel.y = self.imu_transfer(x, y, imu)
-
         # print(self.interface.robot_info.ball.ang)
         self.interface.robot_info.cmd_vel.yaw = self.interface.robot_info.ball.ang
     

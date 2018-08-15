@@ -1,6 +1,5 @@
 #! /usr/bin/python3
-from time import time
-
+import os
 
 import signal
 import rospy
@@ -9,7 +8,7 @@ from src.role_manager import RoleManager
 # keyboard interrupt function
 def keyBoardINT(signum, frame):  
     print('You pressed Ctrl+C!')
-    exit(0)  
+    os.kill(os.getpid(), signal.SIGKILL)
 
 
 if __name__ == '__main__': 

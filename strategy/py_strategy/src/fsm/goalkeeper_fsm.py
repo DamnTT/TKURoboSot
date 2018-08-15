@@ -23,6 +23,8 @@ class InitState(AbstractFSM):
         print ('enter init!!')
     
     def execState(self, obj):
+        if len(obj.interface.robot_param.behavior.goalkeeper) == 0:
+            raise ValueError("goalkeeper behavior param doesn't exist")
         print('initialize')
 
     def exitState(self, obj):
@@ -30,7 +32,6 @@ class InitState(AbstractFSM):
 
     def transferState(self, obj):
         obj.state = STAY
-
 
 class BlockState(AbstractFSM):
     def enterState(self, obj):
@@ -47,8 +48,8 @@ class BlockState(AbstractFSM):
         near_door = our_door.left_dis if our_door.left_dis < our_door.right_dis else our_door.right_dis
         ball = obj.interface.robot_info.ball
 
-        dis_block_to_stay = obj.interface.robot_param.goalkeeper[5]
-        dis_block_to_push = obj.interface.robot_param.goalkeeper[6]
+        dis_block_to_stay = obj.interface.robot_param.behavior.goalkeeper[5]
+        dis_block_to_push = obj.interface.robot_param.behavior.goalkeeper[6]
 
 
         if ball.dis > dis_block_to_stay:
@@ -73,7 +74,7 @@ class PushState(AbstractFSM):
         ball = obj.interface.robot_info.ball
 
         dis_our_door_ball = our_door.dis + ball.dis
-        dis_push_to_return = obj.interface.robot_param.goalkeeper[7]
+        dis_push_to_return = obj.interface.robot_param.behavior.goalkeeper[7]
         
         if dis_our_door_ball > dis_push_to_return:
             obj.state = RETURN_DOOR
@@ -92,7 +93,7 @@ class StayState(AbstractFSM):
 
     def transferState(self, obj):
         ball = obj.interface.robot_info.ball
-        dis_block_to_stay = obj.interface.robot_param.goalkeeper[5]
+        dis_block_to_stay = obj.interface.robot_param.behavior.goalkeeper[5]
 
         if ball.dis < dis_block_to_stay:
             obj.state = BLOCK
@@ -112,7 +113,7 @@ class ReturnDoor(AbstractFSM):
     def transferState(self, obj):
         ball = obj.interface.robot_info.ball
         our_door = obj.interface.robot_info.op_goal
-        dis_return_to_stay = obj.interface.robot_param.goalkeeper[8]
+        dis_return_to_stay = obj.interface.robot_param.behavior.goalkeeper[8]
         
         if our_door.dis < 1:
             obj.state = STAY

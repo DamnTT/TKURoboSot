@@ -20,9 +20,10 @@ class RobotPortManager(object):
         super(RobotPortManager, self).__init__()
         self.updateData = True
         self.initAttr()
+        self.loadParam()
+        rospy.Subscriber('FIRA/SaveParam', Int32, self.subSaveParam)
         rospy.Subscriber('FIRA/TeamColor', String, self.subTeamColor)
         rospy.Subscriber('vision/object', Object, self.subVision)
-        rospy.Subscriber('FIRA/SaveParam', Int32, self.subSaveParam)
         rospy.Subscriber('interface/Two_point', Two_point, self.subTwoPoint)
         rospy.Subscriber('motion/remote', Bool, self.subManualCmd)
         rospy.Subscriber('/imu_3d', inertia, self.subIMU)
@@ -39,7 +40,6 @@ class RobotPortManager(object):
 
         self.__robot_param = data_structure.Param()
         self.__imu = 0
-
 
     def subVision(self, vision):
         if self.__team_color == 'Blue':
@@ -61,7 +61,7 @@ class RobotPortManager(object):
         self.__team_color = team_color.data
 
     def subSaveParam(self, saveParam):
-        self.__saveParam = saveParam.data
+        self.loadParam()
     
     def subTwoPoint(self, two_point):
         if self.__team_color == 'Blue':
@@ -89,11 +89,9 @@ class RobotPortManager(object):
         if rospy.has_param('FIRA/SPlanning_Velocity'):
             self.__velocity_param = rospy.get_param('FIRA/SPlanning_Velocity')
         if rospy.has_param('FIRA_Behavior/Goalkeeper'):
-            self.__robot_param.goalkeeper = rospy.get_param('FIRA_Behavior/Goalkeeper')
-
+            self.__robot_param.behavior.goalkeeper = rospy.get_param('FIRA_Behavior/Goalkeeper')
 
     def updateRobotCmd(self):
-
         motor_cmd = Twist()
         self.robot_info.cmd_vel.x = self.rounding(self.robot_info.cmd_vel.x)
         self.robot_info.cmd_vel.y = self.rounding(self.robot_info.cmd_vel.y)
@@ -113,18 +111,10 @@ class RobotPortManager(object):
             value = 0
         return value
 
-
     @property
     def team_color(self):
         return self.__team_color
     
-    @property
-    def saveParam(self):
-        return self.__saveParam
-    @saveParam.setter
-    def saveParam(self, value):
-        self.__saveParam = value
-
     @property
     def robot_info(self):
         return self.__robot_info
