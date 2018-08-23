@@ -28,7 +28,7 @@ GAMESTATE_RUN_LOCATION  =   501
 # role
 
 ## basic
-
+NO_EXISTS               =  -1
 ROLE_HALT               =   0
 ROLE_GOALKEEPER         =   1  
 ROLE_ATTACK             =   2
@@ -43,5 +43,6 @@ ROLE_GOAL_KICK          =   9
 ## special purpose
 
 ROLE_RUN_LOCATION       =   501
+
 
 
