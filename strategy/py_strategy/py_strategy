@@ -1,33 +1,61 @@
 #! /usr/bin/python3
+r""" py_strategy
+
+* Author        |   Chu, Chen-You
+* Description   |   The main function of py_strategy node
+* Contact       |   acgeusmile@gmail.com
+
+"""
 import signal
 import rospy
 import os
 
 from src.robot_generator import *
-# keyboard interrupt function
+
 def keyBoardINT(signum, frame):  
+    r"""
+        Keyboard interrupt
+    """
     print('You pressed Ctrl+C!')
     os.kill(os.getpid(), signal.SIGKILL)
 
-if __name__ == '__main__': 
+def roleUpdate(generate_obj, robot_list):
+    r"""
+        Role update
+    """
+    for update_role in enumerate(generate_obj.update_role):
+        if update_role[1] == True:
+            generate_obj.generateRobot(robot_list=robot_list, number=update_role[0])
+            generate_obj.update_role[update_role[0]] = False
 
+def runRobot(robot_list):
+    r"""
+        Execute robot procedure
+    """
+    for robot in robot_list:
+        if robot is not None:
+            robot.run()
+
+def interruptDecalre():
+    r"""
+        Declaration of interrupt
+    """
     signal.signal(signal.SIGINT, keyBoardINT)  
     signal.signal(signal.SIGTERM, keyBoardINT) 
 
+def main():
+    r"""
+        The main function of py_strategy node
+    """
+    interruptDecalre()
     rospy.init_node('py_strategy', anonymous=True)
     robot_generator = RobotGenerator()
-    robot_list = robot_generator.selectRobot()
+    robot_list = robot_generator.generateRobot()
     rate = rospy.Rate(5)
-
     while not rospy.is_shutdown():        
-
-        for update_role in enumerate(robot_generator.update_role):
-            if update_role[1] == True:
-                robot_generator.selectRobot(robot_list=robot_list, number=update_role[0])
-                robot_generator.update_role[update_role[0]] = False
-       
-        for robot in robot_list:
-            if robot is not None:
-                robot.run()
-        
+        roleUpdate(robot_generator, robot_list)
+        runRobot(robot_list)
         rate.sleep()
+
+if __name__ == '__main__': 
+    main()

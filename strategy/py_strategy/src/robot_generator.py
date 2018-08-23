@@ -13,12 +13,11 @@ class RobotGenerator(object):
     def __init__(self):
         self.robot_list = [NO_EXISTS, NO_EXISTS, NO_EXISTS]
         self.update_role = [False, False, False]
-        # self.update_role = False
         rospy.Subscriber('FIRA/R1/Strategy/Coach/role', Int32, self.subRole1st)
         rospy.Subscriber('FIRA/R2/Strategy/Coach/role', Int32, self.subRole2nd)
         rospy.Subscriber('FIRA/R3/Strategy/Coach/role', Int32, self.subRole3rd)
 
-    def selectRobot(self, **kwargs):
+    def generateRobot(self, **kwargs):
         if 'robot_list' in kwargs:
             robot_list = kwargs['robot_list']
             if self.robot_list[kwargs['number']] == const.ROLE_HALT:
