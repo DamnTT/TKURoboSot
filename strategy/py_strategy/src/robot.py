@@ -1,6 +1,7 @@
 r""" robot.py
 
 * Author        |   Chu, Chen-You
+* Date          |   2018/08/23
 * Description   |   The soccer robot class 
 * Contact       |   acgeusmile@gmail.com
 
@@ -25,7 +26,7 @@ class Robot(object):
         raise NotImplementedError('Subclass must implement abstract method')
 
 class SoccerRobot(Robot):
-    """ The soccer robot class 
+    r""" The soccer robot class 
     function:
         run():
             execute the soccer robot procedure
@@ -55,6 +56,7 @@ class SoccerRobot(Robot):
         self._initArgs()
 
     def run(self):
+        # self.interface._param("/FIRA_Behavior/Goalkeeper", 1)
         self._behaviorDecision()
         self._pubRobotControlCommand()
 
@@ -88,14 +90,14 @@ class SoccerRobot(Robot):
             alpha = math.atan2(self.interface.robot_info.cmd_vel.y, self.interface.robot_info.cmd_vel.x) * const.RAD2DEG
         else:
             alpha = 0
-        dis_max = self.interface.velocity_param[0]
-        dis_min = self.interface.velocity_param[1]
-        velocity_max = self.interface.velocity_param[2]
-        velocity_min = self.interface.velocity_param[3]
-        angular_velocity_max = self.interface.velocity_param[4]
-        angular_velocity_min = self.interface.velocity_param[5]
-        angle_max = self.interface.velocity_param[6]
-        angle_min = self.interface.velocity_param[7]
+        dis_max = self.interface.robot_param.velocity_param[0]
+        dis_min = self.interface.robot_param.velocity_param[1]
+        velocity_max = self.interface.robot_param.velocity_param[2]
+        velocity_min = self.interface.robot_param.velocity_param[3]
+        angular_velocity_max = self.interface.robot_param.velocity_param[4]
+        angular_velocity_min = self.interface.robot_param.velocity_param[5]
+        angle_max = self.interface.robot_param.velocity_param[6]
+        angle_min = self.interface.robot_param.velocity_param[7]
         angle_out = angle
         if velocity == 0:
             pass

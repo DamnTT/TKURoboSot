@@ -102,4 +102,5 @@ class Param(object):
 
     def __init__(self):
         self.behavior = Behavior()
-
+        self.velocity_param = []
+        self.robot_number = 0
