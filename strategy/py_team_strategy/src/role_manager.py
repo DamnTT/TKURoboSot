@@ -8,7 +8,7 @@ r""" role_manager.py
 """
 import rospy
 import math
-from src.coach_command_manager import *
+from src.coach_port_manager import *
 from src.data_structure import const
 
 __all__ = ['RoleManager']
@@ -25,7 +25,7 @@ class RoleManager(object):
             publish the role of each robot
     """
     def __init__(self):
-        self.coach_command = CoachCmdManager()
+        self.coach_command = CoachPortManager()
 
     def teamStrategy(self):
         if self.coach_command.game_state == const.GAMESTATE_HALT:
