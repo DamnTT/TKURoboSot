@@ -45,4 +45,7 @@ ROLE_GOAL_KICK          =   9
 ROLE_RUN_LOCATION       =   501
 
 
+# finite state machine 
 
+FSM_HALT = 1
+FSM_BRAKE = 2

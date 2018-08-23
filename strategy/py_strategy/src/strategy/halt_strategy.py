@@ -1,3 +1,11 @@
+r""" halt_strategy.py
+
+* Author        |   Chu, Chen-You
+* Date          |   2018/08/23
+* Description   |   Halt strategy class
+* Contact       |   acgeusmile@gmail.com
+
+"""
 import rospy
 from src.robot import SoccerRobot
 from src.fsm.halt_fsm import HaltFSM
@@ -6,7 +14,13 @@ __all__ = ['Halt']
 
 
 class Halt(SoccerRobot): 
-
+    r""" Halt strategy class
+    function:
+        halt():
+            halt the robot
+        brake():
+            brake the robot
+    """
     def __init__(self):
         super().__init__()
         self._fsm = HaltFSM()
