@@ -1,27 +1,43 @@
 #! /usr/bin/python3
-import os
+r""" py_team_strategy
 
+* Author        |   Chu, Chen-You
+* Date          |   2018/08/23
+* Description   |   The main function of py_team_strategy node
+* Contact       |   acgeusmile@gmail.com
+
+"""
+import os
 import signal
 import rospy
 from src.role_manager import RoleManager
 
-# keyboard interrupt function
 def keyBoardINT(signum, frame):  
+    r"""
+        Keyboard interrupt
+    """
     print('You pressed Ctrl+C!')
     os.kill(os.getpid(), signal.SIGKILL)
 
-
-if __name__ == '__main__': 
-
+def interruptDecalre():
+    r"""
+        Declaration of interrupt
+    """
     signal.signal(signal.SIGINT, keyBoardINT)  
     signal.signal(signal.SIGTERM, keyBoardINT) 
 
+def main():
+    r"""
+        The main function of py_strategy node
+    """
+    interruptDecalre()
     rospy.init_node('team_strategy', anonymous=True)
     rate = rospy.Rate(5)
     team_coach = RoleManager()
-
     while not rospy.is_shutdown():        
-
         team_coach.teamStrategy()
         team_coach.pubRole()
         rate.sleep()
+
+if __name__ == '__main__': 
+    main()
