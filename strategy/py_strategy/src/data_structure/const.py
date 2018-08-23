@@ -2,6 +2,13 @@ r""" Environment definition enhance the readability of the code
 
 """
 
+import math
+
+# math
+
+RAD2DEG = 180/math.pi
+DEG2RAD = math.pi/180
+
 # game state
 
 ## basic
@@ -36,3 +43,5 @@ ROLE_GOAL_KICK          =   9
 ## special purpose
 
 ROLE_RUN_LOCATION       =   501
+
+
