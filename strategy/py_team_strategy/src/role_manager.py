@@ -1,3 +1,11 @@
+r""" role_manager.py
+
+* Author        |   Chu, Chen-You
+* Date          |   2018/08/23
+* Description   |   Team strategy desicion manager
+* Contact       |   acgeusmile@gmail.com
+
+"""
 import rospy
 import math
 from src.coach_command_manager import *
@@ -9,13 +17,17 @@ RAD2DEG = 180/math.pi
 DEG2RAD = math.pi/180
 
 class RoleManager(object):
-
+    r""" Team strategy desicion manager
+    function:
+        teamStrategy():
+            Decide the role of each robot
+        pubRole():
+            publish the role of each robot
+    """
     def __init__(self):
-        
         self.coach_command = CoachCmdManager()
 
     def teamStrategy(self):
-        
         if self.coach_command.game_state == const.GAMESTATE_HALT:
             self.coach_command.robot_1_role = const.ROLE_HALT
             self.coach_command.robot_2_role = const.ROLE_HALT
@@ -24,9 +36,7 @@ class RoleManager(object):
             self.coach_command.robot_1_role = const.ROLE_GOALKEEPER
             self.coach_command.robot_2_role = const.ROLE_HALT
             self.coach_command.robot_3_role = const.ROLE_HALT
-        
         ## special purpose
-        
         elif self.coach_command.game_state == const.GAMESTATE_RUN_LOCATION:
             self.coach_command.robot_1_role = const.ROLE_RUN_LOCATION
             self.coach_command.robot_2_role = const.ROLE_RUN_LOCATION
