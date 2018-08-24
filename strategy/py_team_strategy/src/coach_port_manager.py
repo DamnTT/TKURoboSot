@@ -46,11 +46,11 @@ class CoachPortManager(object):
     """
     def __init__(self):
         super(CoachPortManager, self).__init__()
-        self._initAttr()
+        self._initAttrs()
         self._rosSubscriber()
         self._rosPublisher()
         
-    def _initAttr(self): 
+    def _initAttrs(self): 
         self._userInterface()
         self.game_state = const.GAMESTATE_HALT
         self.robot_1_role = const.ROLE_HALT

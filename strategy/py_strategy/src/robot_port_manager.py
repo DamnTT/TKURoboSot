@@ -28,7 +28,7 @@ class RobotPortManager(object):
             ros subscriber decalaration
         _rosPublisher():
             ros publisher decalaration
-        _initAttr():
+        _initAttrs():
             initialize all attrubute args
         _loadParam():
             load strategy parameter
@@ -46,7 +46,7 @@ class RobotPortManager(object):
     """
     def __init__(self):
         super(RobotPortManager, self).__init__()
-        self._initAttr()
+        self._initAttrs()
         self._loadParam()
         self._rosSubscriber()
         self._rosPublisher()
@@ -75,7 +75,7 @@ class RobotPortManager(object):
         self.pub_cmd_vel = rospy.Publisher('motion/cmd_vel', Twist, queue_size=10) 
         self.pub_cmd_shoot = rospy.Publisher('motion/shoot', Int32, queue_size=10)
 
-    def _initAttr(self):
+    def _initAttrs(self):
         self.__robot_info = data_structure.RobotInfo()
         self.__team_color = 'Blue'
         self.__robot_param = data_structure.Param()

@@ -30,7 +30,7 @@ class SoccerRobot(Robot):
     function:
         run():
             execute the soccer robot procedure
-        _initArgs():
+        _initAttrs():
             initialize all attrubute args
         attachFSM():
             attach finite-state machine to soccer robot
@@ -53,10 +53,9 @@ class SoccerRobot(Robot):
     """
     def __init__(self, **kwarg):
         super(SoccerRobot, self).__init__()
-        self._initArgs()
+        self._initAttrs()
 
     def run(self):
-        # self.interface._param("/FIRA_Behavior/Goalkeeper", 1)
         self._behaviorDecision()
         self._pubRobotControlCommand()
 
@@ -64,7 +63,7 @@ class SoccerRobot(Robot):
         self.fsm = fsm
         self.curr_state = state
     
-    def _initArgs(self):
+    def _initAttrs(self):
         self.state = 0
         self.interface = RobotPortManager()
 

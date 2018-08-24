@@ -23,7 +23,7 @@ class RobotGenerator(object):
             ros subscriber decalaration
         _rosPublisher():
             ros publisher decalaration
-        _initAttr():
+        _initAttrs():
             initialize all attrubute args
     args:
         robot_list:
@@ -32,7 +32,7 @@ class RobotGenerator(object):
             list to check the robot_list change or not
     """
     def __init__(self):
-        self._initAttr()
+        self._initAttrs()
         self._rosPublisher()
         self._rosSubscriber()
 
@@ -61,7 +61,7 @@ class RobotGenerator(object):
     def _rosPublisher(self):
         pass
     
-    def _initAttr(self):
+    def _initAttrs(self):
         self.robot_list = [const.NO_EXISTS, const.NO_EXISTS, const.NO_EXISTS]
         self.update_role = [False, False, False]
     
