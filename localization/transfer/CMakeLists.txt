@@ -18,6 +18,7 @@
 
 add_executable(localization_node NodeHandle.cpp Transfer.cpp DisplayImage.cpp)
 target_link_libraries(localization_node ${catkin_LIBRARIES})
+add_dependencies(localization_node imu_3d)
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 # include_directories(include)
