@@ -42,7 +42,7 @@ def interruptDecalre():
         Declaration of interrupt
     """
     signal.signal(signal.SIGINT, keyBoardINT)  
-    signal.signal(signal.SIGTERM, keyBoardINT) 
+    signal.signal(signal.SIGTERM, keyBoardINT)
 
 def main():
     r"""

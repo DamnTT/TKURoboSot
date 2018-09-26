@@ -4,10 +4,13 @@
 
 #include <eigen3/Eigen/Dense>
 #include <eigen3/Eigen/Geometry>
+#include <cmath>
 #include <vector>
 using namespace Eigen;
 
 const long PLAYERS_PER_SIDE = 3;
+#define DEG2RAD M_PI/180
+#define RAD2DEG 180/M_PI
 
 #define GameState_Halt          0
 #define GameState_Play          1
@@ -140,10 +143,6 @@ typedef struct{
 }Vector3D;
 
 typedef struct{
-    double max, min, max_dis, min_dis;
-}Two_point;
-
-typedef struct{
     Vector3D pos;
     Vector3D ball;
     Vector3D goal;
@@ -152,8 +151,6 @@ typedef struct{
     Vector3D op_goal_large_area;
     double rotation;
     double v_x,v_y,v_yaw;
-    Two_point goal_edge, op_goal_edge;
-    //double velocityLeft, velocityRight;
 }Robot;
 
 
@@ -164,46 +161,50 @@ typedef struct{
     Vector3D pos;
 }Goal;
 
+typedef struct{
+    int robot_num;
+}General;
+
+typedef struct{
+    std::vector<double> velocity_s_planning;
+}PathPlan;
+
+typedef struct{
+    //
+}Behavior;
+
+typedef struct{
+    PathPlan path_plan[PLAYERS_PER_SIDE];
+    Behavior behavior[PLAYERS_PER_SIDE];
+}PersonalStrategy;
+
+typedef struct{
+    General general;
+}TeamStrategy;
+
+typedef struct{
+    TeamStrategy team_strategy;
+    PersonalStrategy personal_strategy;
+}FIRAParam;
+
+typedef struct{
+    std::string team_color;
+}FIRATopic;
+
 typedef struct
 {
     Robot home[PLAYERS_PER_SIDE];
     Robot opponent[PLAYERS_PER_SIDE];
-    Ball currentBall, lastBall, predictedBall;
-    //Bounds fieldBounds, goalBounds;
-    long gameState;
-    int RobotNumber;
-    int  issimulator;
-    std::string teamcolor;
-    //BlackObject
-    int blackangle[20];
-    int mindis[20];
-    //apf
-    std::vector<int> global_angle_end;
-    std::vector<int> global_angle_start;
-    std::vector<int> global_apf_dis;
-
-    int blue_side_goal_data[3];//blue_dis,blue_ang1,blue_ang2;
-    int yellow_side_goal_data[3];//yellow_dis,yellow_ang1,yellow_ang2;
-    //long whosBall;
-    //void *userData;
-    Goal yellow, blue;
-    int SaveParam;
-    int AnotherGetBall;
-    double AnotherBallDistance;
-    int AnotherRobotNumber;
-    double AnotherGoalDistance;
-    int R1OrderR2;
-    double Support_Obstacle_angle;
-    double Support_Obstacle_distance;
-    double Support_WhiteLine_distance;
-    int isteamstrategy;
+    FIRAParam param;
+    FIRATopic topic;
 } Environment;
-//static Environment global_env;
 
 typedef struct
 {
     int begin;
     int end;
 }Range;
+
+
 
 #endif

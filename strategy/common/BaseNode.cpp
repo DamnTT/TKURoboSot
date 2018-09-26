@@ -42,7 +42,7 @@ void BaseNode::shutdown() {
 	wait();
 }
 
-bool BaseNode::on_init() {
+bool BaseNode::onInit() {
 
     std::cout << "node_name=" << node_name << std::endl;
 	ros::init(init_argc,init_argv,node_name);
@@ -60,12 +60,12 @@ bool BaseNode::on_init() {
 
     std::cout << "BaseNode::on_init() say  afetr start " << std::endl;
 
-    ros_comms_init();
+    rosCommsInit();
 
 	return true;
 }
 
-bool BaseNode::on_init(const std::string &master_url, const std::string &host_url) {
+bool BaseNode::onInit(const std::string &master_url, const std::string &host_url) {
 	std::map<std::string,std::string> remappings;
 	remappings["__master"] = master_url;
 	remappings["__hostname"] = host_url;
@@ -74,7 +74,7 @@ bool BaseNode::on_init(const std::string &master_url, const std::string &host_ur
 		return false;
 	}
 	ros::start(); // our node handles go out of scope, so we want to control shutdown explicitly.
-	ros_comms_init();
+	rosCommsInit();
 
 	return true;
 }

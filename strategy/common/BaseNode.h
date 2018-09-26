@@ -30,13 +30,13 @@ public:
     BaseNode(int argc, char** argv, const std::string &name );
     virtual ~BaseNode();
 
-    bool on_init();
-    bool on_init(const std::string &master_url, const std::string &host_url);
+    bool onInit();
+    bool onInit(const std::string &master_url, const std::string &host_url);
     void shutdown();
 
 
 protected:
-    virtual void ros_comms_init() = 0;
+    virtual void rosCommsInit() = 0;
     int init_argc;
     char** init_argv;
     const std::string node_name;
