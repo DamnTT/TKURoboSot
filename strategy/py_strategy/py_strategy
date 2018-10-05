@@ -13,21 +13,24 @@ import os
 
 from src.robot_generator import *
 
-def keyBoardINT(signum, frame):  
+
+def keyBoardINT(signum, frame):
     r"""
         Keyboard interrupt
     """
     print('You pressed Ctrl+C!')
     os.kill(os.getpid(), signal.SIGKILL)
 
+
 def roleUpdate(generate_obj, robot_list):
     r"""
         Role update
     """
     for update_role in enumerate(generate_obj.update_role):
-        if update_role[1] == True:
+        if update_role[1]:
             generate_obj.generateRobot(robot_list=robot_list, number=update_role[0])
             generate_obj.update_role[update_role[0]] = False
+
 
 def runRobot(robot_list):
     r"""
@@ -37,12 +40,14 @@ def runRobot(robot_list):
         if robot is not None:
             robot.run()
 
+
 def interruptDecalre():
     r"""
         Declaration of interrupt
     """
-    signal.signal(signal.SIGINT, keyBoardINT)  
+    signal.signal(signal.SIGINT, keyBoardINT)
     signal.signal(signal.SIGTERM, keyBoardINT)
+
 
 def main():
     r"""
@@ -53,10 +58,11 @@ def main():
     robot_generator = RobotGenerator()
     robot_list = robot_generator.generateRobot()
     rate = rospy.Rate(5)
-    while not rospy.is_shutdown():        
+    while not rospy.is_shutdown():
         roleUpdate(robot_generator, robot_list)
         runRobot(robot_list)
         rate.sleep()
 
-if __name__ == '__main__': 
+
+if __name__ == '__main__':
     main()

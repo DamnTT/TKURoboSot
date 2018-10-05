@@ -2,7 +2,7 @@ r""" robot.py
 
 * Author        |   Chu, Chen-You
 * Date          |   2018/08/23
-* Description   |   The soccer robot class 
+* Description   |   The soccer robot class
 * Contact       |   acgeusmile@gmail.com
 
 """
@@ -16,7 +16,7 @@ __all__ = ['SoccerRobot']
 
 
 class Robot(object):
-    r""" Robot abstract class 
+    r""" Robot abstract class
 
     """
     def __init__(self):
@@ -25,8 +25,9 @@ class Robot(object):
     def run(self):
         raise NotImplementedError('Subclass must implement abstract method')
 
+
 class SoccerRobot(Robot):
-    r""" The soccer robot class 
+    r""" The soccer robot class
     function:
         run():
             execute the soccer robot procedure
@@ -43,13 +44,12 @@ class SoccerRobot(Robot):
         _velocityNormalization():
             velocity planning by using s function
         _pubRobotControlCommand():
-            publish robot control command      
+            publish robot control command
     args:
         state:
             the state of finite-state machine
         interface:
             all robot's information
-        
     """
     def __init__(self, **kwarg):
         super(SoccerRobot, self).__init__()
@@ -62,7 +62,7 @@ class SoccerRobot(Robot):
     def attachFSM(self, state, fsm):
         self.fsm = fsm
         self.curr_state = state
-    
+
     def _initAttrs(self):
         self.state = 0
         self.interface = RobotPortManager()
@@ -105,7 +105,7 @@ class SoccerRobot(Robot):
         elif velocity < dis_min:
             velocity = velocity_min
         else:
-            velocity = (velocity_max - velocity_min) * (math.cos((((velocity - dis_min) / (dis_max-dis_min) - 1) * math.pi)) + 1 )/ 2 + velocity_min
+            velocity = (velocity_max - velocity_min) * (math.cos((((velocity - dis_min) / (dis_max-dis_min) - 1) * math.pi)) + 1) / 2 + velocity_min
         if angle == 0:
             pass
         elif abs(angle) > angle_max:
@@ -113,7 +113,7 @@ class SoccerRobot(Robot):
         elif abs(angle) < angle_min:
             angle_out = angular_velocity_min
         else:
-            angle_out = (angular_velocity_max - angular_velocity_min) * (math.cos((((angle - angle_min) / (angle_max-angle_min) - 1) * math.pi)) + 1 )/ 2 + angular_velocity_min
+            angle_out = (angular_velocity_max - angular_velocity_min) * (math.cos((((angle - angle_min) / (angle_max-angle_min) - 1) * math.pi)) + 1) / 2 + angular_velocity_min
         if angle < 0:
             angle_out = -angle_out
         self.interface.robot_info.cmd_vel.x = velocity * math.cos(alpha*const.DEG2RAD)

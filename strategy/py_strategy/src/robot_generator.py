@@ -43,7 +43,7 @@ class RobotGenerator(object):
                 robot_list[kwargs['number']] = Halt()
             elif self.robot_list[kwargs['number']] == const.ROLE_GOALKEEPER:
                 robot_list[kwargs['number']] = Goalkeeper()
-            ## special purpose
+            # special purpose
             elif self.robot_list[kwargs['number']] == const.ROLE_RUN_LOCATION:
                 robot_list[kwargs['number']] = Special(const.ROLE_RUN_LOCATION)
         else:
@@ -60,11 +60,11 @@ class RobotGenerator(object):
 
     def _rosPublisher(self):
         pass
-    
+
     def _initAttrs(self):
         self.robot_list = [const.NO_EXISTS, const.NO_EXISTS, const.NO_EXISTS]
         self.update_role = [False, False, False]
-    
+
     def _subRole1st(self, role):
         if self.robot_list[0] == role.data:
             pass

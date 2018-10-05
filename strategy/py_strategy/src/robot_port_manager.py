@@ -2,7 +2,7 @@ r""" robot_port_manager.py
 
 * Author        |   Chu, Chen-You
 * Date          |   2018/08/23
-* Description   |   The port manager of robot 
+* Description   |   The port manager of robot
 * Contact       |   acgeusmile@gmail.com
 
 """
@@ -20,7 +20,7 @@ __all__ = ['RobotPortManager']
 
 
 class RobotPortManager(object):
-    r""" The port manager of robot 
+    r""" The port manager of robot
     function:
         updateRobotCmd():
             publish robot control command
@@ -72,7 +72,7 @@ class RobotPortManager(object):
         rospy.Subscriber('/imu_3d', inertia, self._subIMU)
 
     def _rosPublisher(self):
-        self.pub_cmd_vel = rospy.Publisher('motion/cmd_vel', Twist, queue_size=10) 
+        self.pub_cmd_vel = rospy.Publisher('motion/cmd_vel', Twist, queue_size=10)
         self.pub_cmd_shoot = rospy.Publisher('motion/shoot', Int32, queue_size=10)
 
     def _initAttrs(self):
@@ -80,14 +80,14 @@ class RobotPortManager(object):
         self.__team_color = 'Blue'
         self.__robot_param = data_structure.Param()
         self.__imu = 0
-    
+
     def _loadParam(self):
         self.__robot_param.velocity_param = self._getParam('FIRA/SPlanning_Velocity', [2.2, 0.3, 50, 30, 20, 3, 144, 5])
         self.__robot_param.robot_number = self._getParam('FIRA/RobotNumber', 1)
         self.__robot_param.behavior.goalkeeper = self._getParam('FIRA_Behavior/Goalkeeper', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 
     def _getParam(self, topic_name, init_data):
-        if type(topic_name) != type(""):
+        if isinstance(topic_name, ""):
             topic_name = str(topic_name)
         if rospy.has_param(topic_name):
             return rospy.get_param(topic_name)
@@ -120,7 +120,7 @@ class RobotPortManager(object):
 
     def _subSaveParam(self, saveParam):
         self._loadParam()
-    
+
     def _subTwoPoint(self, two_point):
         if self.__team_color == 'Blue':
             self.__robot_info.op_goal.ang_max = two_point.blue_ang_max
@@ -144,10 +144,11 @@ class RobotPortManager(object):
     @property
     def team_color(self):
         return self.__team_color
-    
+
     @property
     def robot_info(self):
         return self.__robot_info
+
     @robot_info.setter
     def robot_info(self, value):
         self.__robot_info = value
